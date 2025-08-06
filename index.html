@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ganesh Chanda Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 450px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Ganesh Chanda Receipt</h2>
+
+  <label>Address:</label>
+  <input type="text" id="address" placeholder="Enter Address" required>
+
+  <label>Donor Name:</label>
+  <input type="text" id="name" placeholder="Enter Name" required>
+
+  <label>Date:</label>
+  <input type="date" id="date" required>
+
+  <label>Amount (₹):</label>
+  <input type="number" id="amount" placeholder="Enter Amount" required>
+
+  <label>Phone Number:</label>
+  <input type="tel" id="phone" placeholder="10-digit number" pattern="[0-9]{10}" required>
+
+  <label>Payment Method:</label>
+  <select id="payment" required>
+    <option value="">Select</option>
+    <option value="Cash">Cash</option>
+    <option value="PhonePe">PhonePe</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <button onclick="handleSubmit()">Submit</button>
+</div>
+
+<script>
+  function handleSubmit() {
+    const address = document.getElementById("address").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const date = document.getElementById("date").value;
+    const amount = document.getElementById("amount").value;
+    const phone = document.getElementById("phone").value.trim();
+    const payment = document.getElementById("payment").value;
+
+    if (!address || !name || !date || !amount || !phone || !payment) {
+      alert("Please fill all the fields.");
+      return;
+    }
+
+    if (payment === "Cash") {
+      // Send WhatsApp Message
+      const message = `🙏 Thank you ${name} for donating ₹${amount} for Ganesh Chanda on ${date}.\n- Arjuna Youth`;
+      const whatsappLink = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappLink, '_blank');
+
+    } else if (payment === "PhonePe") {
+      // Open UPI link (replace with your UPI ID)
+      const upiID = "9553449753@fam"; // your UPI ID here
+      const upiLink = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+      window.location.href = upiLink;
+
+    } else {
+      alert("Thank you! Payment mode recorded as 'Other'.");
+    }
+  }
+</script>
+
+</body>
+</html>
